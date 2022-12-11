@@ -18,4 +18,6 @@ In progress... To be added after all configs are working!
 - Revert .env to enable `REV_SERVER`.
 - Use specifiy docker image version in docker-compose
 - Attempt to fix ['No such file or directory'](https://stackoverflow.com/questions/29535015/error-cannot-start-container-stat-bin-sh-no-such-file-or-directory) in synology default terminal by using array of string in the entrypoint commands
+    - That don't work and tried the advise in [docker entrypoint doc](https://docs.docker.com/engine/reference/builder/#entrypoint). 
+- Change all line ending to LF from CRLF.
 
