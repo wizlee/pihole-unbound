@@ -15,5 +15,7 @@ In progress... To be added after all configs are working!
 - Add pihole-FTL.conf to include custom rate limit setting in pihole
 - Enable custom unbound log and increase verbosity to 4 for debugging
 - Add [anudeepND whitelist](https://github.com/anudeepND/whitelist#for-whitelisttxt) into dockerfile
-- [PENDING] revert REV_SERVER changes.
+- Revert .env to enable `REV_SERVER`.
+- Use specifiy docker image version in docker-compose
+- Attempt to fix ['No such file or directory'](https://stackoverflow.com/questions/29535015/error-cannot-start-container-stat-bin-sh-no-such-file-or-directory) in synology default terminal by using array of string in the entrypoint commands
 

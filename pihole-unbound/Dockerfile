@@ -9,9 +9,8 @@ COPY 99-edns.conf /etc/dnsmasq.d/99-edns.conf
 RUN mkdir -p /etc/services.d/unbound
 COPY unbound-run /etc/services.d/unbound/run
 
-RUN apt install python3
+RUN apt install -y python3
 RUN git clone https://github.com/anudeepND/whitelist.git
 RUN python3 whitelist/scripts/whitelist.py
 
-ENTRYPOINT ./s6-init
-
+ENTRYPOINT [./s6-init]
