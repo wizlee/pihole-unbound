@@ -21,5 +21,14 @@ RUN cp /usr/share/dns/root.key /var/lib/unbound/root.key && cp /usr/share/dns/ro
 # RUN git clone https://github.com/anudeepND/whitelist.git
 # RUN python3 whitelist/scripts/whitelist.py
 
+# Add custom blacklist
+# # Copy script to add blocklist URL to gravity database
+# COPY add_blocklist.sh /etc/pihole/
+
+# # Run script and update gravity database
+# RUN chmod +x /etc/pihole/add_blocklist.sh && \
+#     /etc/pihole/add_blocklist.sh && \
+#     pihole -g
+
 ENTRYPOINT ["./s6-init"]
 # CMD ["/bin/bash", "-c", "./s6-init"]
