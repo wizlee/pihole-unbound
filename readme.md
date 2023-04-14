@@ -31,7 +31,8 @@ In progress... To be added after all configs are working!
     - Add `domain=local` in `99-edns.conf`.
     - That .conf file will be copied into `/etc/dnsmasq.d/` folder of the docker container.
     - [dnsmasq](https://www.linux.com/topic/networking/advanced-dnsmasq-tips-and-tricks/) will read all the file with `.conf`, thus that domain value is added in that file.
-- Also tried up version pihole version by changing `pihole-unbound/VERSION`
+- Modify build script to only build pihole-unbound image
+    - Using this build script to build pihole-unbound image will now use a fixed pihole version instead of latest
 
 ## Pending (Top most is the highest priority)
 - Configure PiHole so that endpoint devices are shown individually in PiHole dashboard
