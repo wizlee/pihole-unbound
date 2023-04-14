@@ -24,9 +24,14 @@ In progress... To be added after all configs are working!
     - this also fixes the issue of unbound not able to start properly
 - Leave [Apple's Private Relay block so that apple devices won't bypass pihole](https://discourse.pi-hole.net/t/new-to-pi-hole-why-is-mask-icloud-com-blocked-as-standard/59707/17)
     - When outside of home network, the private relay will be used.
-- Disable the use of conditional forwarding as it seems to generate a lot of traffic from `^.*p\.(([0-9]{1,3}\.){4})in-addr\.arpa$`
+- Disable the use of conditional forwarding (by setting REV_SERVER=false) as it seems to generate a lot of traffic from `^.*p\.(([0-9]{1,3}\.){4})in-addr\.arpa$`
     - There are solutions from [this reddit post](https://www.reddit.com/r/pihole/comments/i9s0jx/how_to_deal_with_lb_dnssd_udp01168192inaddrarpa/), however need time to digest the info thus the quickest way is to disable conditional forwarding
     - The conditional forwarding also don't seem to archive its intended purpose of showing individual endpoint clients in pihole instead of always from the router.
+- Add `pihole.local` as the value pf `PIHOLE_PTR` based on [this doc](https://docs.pi-hole.net/ftldns/configfile/#pihole_ptr).
+    - Add `domain=local` in `99-edns.conf`.
+    - That .conf file will be copied into `/etc/dnsmasq.d/` folder of the docker container.
+    - [dnsmasq](https://www.linux.com/topic/networking/advanced-dnsmasq-tips-and-tricks/) will read all the file with `.conf`, thus that domain value is added in that file.
+- Also tried up version pihole version by changing `pihole-unbound/VERSION`
 
 ## Pending (Top most is the highest priority)
 - Configure PiHole so that endpoint devices are shown individually in PiHole dashboard
@@ -37,6 +42,8 @@ In progress... To be added after all configs are working!
         My PiHole is hosted in a NAS connected to my LAN router. Another device connected to my LAN router is the Wifi access point router which my house mesh wifi router is connected to. All my devices that I wished to show on the dashboard is connected to this mesh wifi router. 
         ```
     - Next to test
+        - ==Important== to investigate the need to enable port 67, add `NET_ADMIN` to cap_add and set `DNSMASQ_LISTENING` to `all`
+            - These are needed as of researching so far in [this github issue](https://github.com/chriscrowe/docker-pihole-unbound/issues/51), [this pihole offical docker page](https://hub.docker.com/r/pihole/pihole), and [this pihole discourse forum post](https://discourse.pi-hole.net/t/dhcp-with-docker-compose-and-bridge-networking/17038)
         - Change deco to [operate in Access Point mode](https://www.tp-link.com/us/support/faq/1842/) intead of the current Router mode. More info in this [Router VS AP mode article](https://www.tp-link.com/my/support/faq/2399/).
         - Enable DHCP server of PiHole
     - {source}
@@ -44,3 +51,5 @@ In progress... To be added after all configs are working!
         - https://discourse.pi-hole.net/t/why-do-i-only-see-my-routers-ip-address-instead-of-individual-devices-in-the-top-clients-section-and-query-log/3653/1
         - https://www.tp-link.com/us/support/faq/3230/
         - [this last one](https://discourse.pi-hole.net/t/pi-hole-not-working-when-i-use-tp-link-deco-x20-dhcp-issues/60064/4) seems promising but need to prepare for no internet access
+- There is a thought to use AdGuard Home instead of PiHole because of its ease of use and features.
+    - Unfortunately it current lacks the ability to work as a DNS recursor. [To be revisit](https://github.com/AdguardTeam/AdGuardHome/issues/5446).
