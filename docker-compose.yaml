@@ -1,35 +1,33 @@
-version: '3.0'
-
-volumes:
-  etc_pihole-unbound:
-  etc_pihole_dnsmasq-unbound:
-
 services:
   pihole:
     container_name: pihole
-    image: pihole-unbound:v0.2.0
-    hostname: ${HOSTNAME}
+    image: mpgirro/pihole-unbound:2026.04.1
+    hostname: ${PIHOLE_HOSTNAME}
     domainname: ${DOMAIN_NAME}
     ports:
       - ${PIHOLE_SECURE_WEBPORT:-443}:443/tcp
       - 53:53/tcp
       - 53:53/udp
-      - ${PIHOLE_WEBPORT:-80}:80/tcp #Allows use of different port to access pihole web interface when other docker containers use port 80
-      - 5335:5335/tcp # Uncomment to enable unbound access on local server
+      - ${PIHOLE_WEBPORT:-80}:${PIHOLE_WEBPORT:-80}/tcp #Allows use of different port to access pihole web interface when other docker containers use port 80
+      # - 5335:5335/tcp # Uncomment to enable unbound access on local server for debugging as this expose unbound to the network, potentially allowed bypassing pihole.
       # - 22/tcp # Uncomment to enable SSH
     environment:
-      - FTLCONF_LOCAL_IPV4=${FTLCONF_LOCAL_IPV4}
       - TZ=${TZ:-UTC}
-      - WEBPASSWORD=${WEBPASSWORD}
-      - WEBTHEME=${WEBTHEME:-default-light}
-      - REV_SERVER=${REV_SERVER:-false}
-      - REV_SERVER_TARGET=${REV_SERVER_TARGET}
-      - REV_SERVER_DOMAIN=${REV_SERVER_DOMAIN}
-      - REV_SERVER_CIDR=${REV_SERVER_CIDR}
-      - PIHOLE_DNS_=127.0.0.1#5335
-      - DNSSEC=false
-      - DNSMASQ_LISTENING=single
+      - FTLCONF_webserver_api_password=${WEBPASSWORD}
+      - FTLCONF_webserver_interface_theme=${WEBTHEME:-default-light}
+      - FTLCONF_dns_revServers=${REV_SERVER:-false},${REV_SERVER_CIDR},${REV_SERVER_TARGET},${REV_SERVER_DOMAIN}
+      - FTLCONF_dns_upstreams=127.0.0.1#5335
+      - FTLCONF_dns_dnssec=false
+      - FTLCONF_dns_listeningMode=single
+      - FTLCONF_webserver_port=${PIHOLE_WEBPORT}
+      - FTLCONF_dns_rateLimit_count=10000
+      - FTLCONF_dns_rateLimit_interval=60
+      - FTLCONF_dns_domain_name=local
+      - FTLCONF_misc_etc_dnsmasq_d=true
     volumes:
       - etc_pihole-unbound:/etc/pihole:rw
       - etc_pihole_dnsmasq-unbound:/etc/dnsmasq.d:rw
     restart: unless-stopped
+volumes:
+  etc_pihole-unbound:
+  etc_pihole_dnsmasq-unbound:

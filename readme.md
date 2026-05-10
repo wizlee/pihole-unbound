@@ -33,9 +33,10 @@ In progress... To be added after all configs are working!
     - [dnsmasq](https://www.linux.com/topic/networking/advanced-dnsmasq-tips-and-tricks/) will read all the file with `.conf`, thus that domain value is added in that file.
 - Modify build script to only build pihole-unbound image
     - Using this build script to build pihole-unbound image will now use a fixed pihole version instead of latest
+- Instead of bundling the unbound into pihol docker image myself, directly use [this unbound image instead](https://github.com/mpgirro/docker-pihole-unbound)
 
 ## Pending (Top most is the highest priority)
-- Configure PiHole so that endpoint devices are shown individually in PiHole dashboard
+- [ ] Configure PiHole so that endpoint devices are shown individually in PiHole dashboard
     - Description to Bing AI
         ```
         That is good information. I am interested in keeping my router as the DHCP server. My network topology is as below, listed for your reference so that you can provide a more accurate answer.
@@ -52,5 +53,5 @@ In progress... To be added after all configs are working!
         - https://discourse.pi-hole.net/t/why-do-i-only-see-my-routers-ip-address-instead-of-individual-devices-in-the-top-clients-section-and-query-log/3653/1
         - https://www.tp-link.com/us/support/faq/3230/
         - [this last one](https://discourse.pi-hole.net/t/pi-hole-not-working-when-i-use-tp-link-deco-x20-dhcp-issues/60064/4) seems promising but need to prepare for no internet access
-- There is a thought to use AdGuard Home instead of PiHole because of its ease of use and features.
+- [ ] There is a thought to use AdGuard Home instead of PiHole because of its ease of use and features.
     - Unfortunately it current lacks the ability to work as a DNS recursor. [To be revisit](https://github.com/AdguardTeam/AdGuardHome/issues/5446).
